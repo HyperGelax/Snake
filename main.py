@@ -1,6 +1,6 @@
 import pygame
 import sqlite3
-from random import randrange
+from random import randrange, uniform
 import sys
 
 pygame.init()
@@ -200,7 +200,8 @@ elif resolution == (1280, 720):
     res_b_a_surf = pygame.image.load('resources/720p/res_b_a.png').convert_alpha()
 
 # базовые переменные
-score = 0
+score = 19
+multiplier = 1
 direction = 'x+'
 apple_coords = (randrange(snake_size, apple_spawn_range_x, snake_size), randrange(snake_size, apple_spawn_range_y,
                                                                                   snake_size))
@@ -240,19 +241,28 @@ res_button = Button(button_size_1, button_size_2, res_b, res_b_a, res_b_surf, re
 
 
 def new_game():
-    global direction, x, y, apple_coords, player_coords, score, stop, paused, apple_surf, apple, FPS
+    global direction, x, y, apple_coords, player_coords, score, stop, paused, apple_surf, apple, FPS, multiplier
     con = sqlite3.connect(bd)
     cur = con.cursor()
     result = cur.execute("""SELECT content FROM info WHERE title = 'record'""").fetchall()[0][0]
     if result < score:
         cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (score, 'record'))
     cur.execute("""UPDATE info SET content = content + 1 WHERE title = ?""", ('played', ))
+    multiplier = uniform(score / 20, score / 10)
+    rubies = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
+    if multiplier > 1:
+        new_rubies = round((score * multiplier) + rubies)
+        cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (new_rubies, 'rubies'))
+    else:
+        new_rubies = score + rubies
+        cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (new_rubies, 'rubies'))
     con.commit()
     con.close()
     FPS = 5
     direction = 'x+'
     player_coords = start_player_coords[:]
     x, y = player_coords[-1]
+    multiplier = 1
     score = 0
     stop = False
     paused = False
@@ -373,7 +383,7 @@ def counter():
 
 
 def end_screen():
-    global FPS
+    global FPS, score
     snake()
     FPS = 75
     screen.blit(pause_surf, pause_m)
@@ -443,13 +453,12 @@ def menu():
     cur = con.cursor()
     result = cur.execute("""SELECT content FROM info WHERE title = 'record'""").fetchall()[0][0]
     result2 = cur.execute("""SELECT content FROM info WHERE title = 'played'""").fetchall()[0][0]
-    rubies = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()
-    print(rubies)
+    rubies = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
 
     f = pygame.font.Font('C:\WINDOWS\Fonts\impact.ttf', 36)
     text = f.render(f'Рекорд: {result}', True, DARK_GRAY)
     text2 = f.render(f'Игр сыграно: {result2}', True, DARK_GRAY)
-    text3 = f.render(f"Руби: {''.join(rubies)}", True, DARK_GRAY)
+    text3 = f.render(f'{rubies}', True, DARK_GRAY)
     if resolution == (1920, 1080):
         place = text.get_rect(center=(1700, 980))
         screen.blit(text, place)
