@@ -119,20 +119,20 @@ if resolution == (1920, 1080):
     button_size_1 = 300
     button_size_2 = 50
     apple_surf = pygame.image.load('resources/1080p/normalapple.png').convert_alpha()
-    head_surf_xx = pygame.image.load('resources/1080p/snake_head_x+.png').convert_alpha()
-    head_surf_x = pygame.image.load('resources/1080p/snake_head_x-.png').convert_alpha()
-    head_surf_yy = pygame.image.load('resources/1080p/snake_head_y+.png').convert_alpha()
-    head_surf_y = pygame.image.load('resources/1080p/snake_head_y-.png').convert_alpha()
-    body_surf_x = pygame.image.load('resources/1080p/snake_body_x.png').convert_alpha()
-    body_surf_y = pygame.image.load('resources/1080p/snake_body_y.png').convert_alpha()
-    snake_r_xy = pygame.image.load('resources/1080p/snake_rotation_x+y+.png').convert_alpha()
-    snake_r_x_y = pygame.image.load('resources/1080p/snake_rotation_x-y+.png').convert_alpha()
-    snake_r_xy_ = pygame.image.load('resources/1080p/snake_rotation_x+y-.png').convert_alpha()
-    snake_r_x_y_ = pygame.image.load('resources/1080p/snake_rotation_x-y-.png').convert_alpha()
-    snake_back_x = pygame.image.load('resources/1080p/snake_back_x+.png').convert_alpha()
-    snake_back_xx = pygame.image.load('resources/1080p/snake_back_x-.png').convert_alpha()
-    snake_back_y = pygame.image.load('resources/1080p/snake_back_y+.png').convert_alpha()
-    snake_back_yy = pygame.image.load('resources/1080p/snake_back_y-.png').convert_alpha()
+    head_surf_xx = pygame.image.load('resources/1080p/skins/blue/snake_head_x+.png').convert_alpha()
+    head_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_head_x-.png').convert_alpha()
+    head_surf_yy = pygame.image.load('resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
+    head_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_head_y-.png').convert_alpha()
+    body_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_body_x.png').convert_alpha()
+    body_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_body_y.png').convert_alpha()
+    snake_r_xy = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x+y+.png').convert_alpha()
+    snake_r_x_y = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x-y+.png').convert_alpha()
+    snake_r_xy_ = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x+y-.png').convert_alpha()
+    snake_r_x_y_ = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x-y-.png').convert_alpha()
+    snake_back_x = pygame.image.load('resources/1080p/skins/blue/snake_back_x+.png').convert_alpha()
+    snake_back_xx = pygame.image.load('resources/1080p/skins/blue/snake_back_x-.png').convert_alpha()
+    snake_back_y = pygame.image.load('resources/1080p/skins/blue/snake_back_y+.png').convert_alpha()
+    snake_back_yy = pygame.image.load('resources/1080p/skins/blue/snake_back_y-.png').convert_alpha()
     backscreen_surf = pygame.image.load('resources/1080p/backscreen.png').convert()
     menu_surf = pygame.image.load('resources/1080p/menu back.png').convert()
     start_surf = pygame.image.load('resources/1080p/start button.png').convert_alpha()
@@ -443,21 +443,26 @@ def menu():
     cur = con.cursor()
     result = cur.execute("""SELECT content FROM info WHERE title = 'record'""").fetchall()[0][0]
     result2 = cur.execute("""SELECT content FROM info WHERE title = 'played'""").fetchall()[0][0]
+    rubies = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()
+    print(rubies)
 
     f = pygame.font.Font('C:\WINDOWS\Fonts\impact.ttf', 36)
     text = f.render(f'Рекорд: {result}', True, DARK_GRAY)
+    text2 = f.render(f'Игр сыграно: {result2}', True, DARK_GRAY)
+    text3 = f.render(f"Руби: {''.join(rubies)}", True, DARK_GRAY)
     if resolution == (1920, 1080):
         place = text.get_rect(center=(1700, 980))
         screen.blit(text, place)
 
-        text2 = f.render(f'Игр сыграно: {result2}', True, DARK_GRAY)
         place = text.get_rect(center=(1700, 1030))
         screen.blit(text2, place)
+
+        place = text.get_rect(center=(1700, 930))
+        screen.blit(text3, place)
     else:
         place = text.get_rect(center=(1133, 653))
         screen.blit(text, place)
 
-        text2 = f.render(f'Игр сыграно: {result2}', True, DARK_GRAY)
         place = text.get_rect(center=(1133, 687))
         screen.blit(text2, place)
 
