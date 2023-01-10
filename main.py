@@ -200,7 +200,7 @@ elif resolution == (1280, 720):
     res_b_a_surf = pygame.image.load('resources/720p/res_b_a.png').convert_alpha()
 
 # базовые переменные
-score = 19
+score = 0
 multiplier = 1
 direction = 'x+'
 apple_coords = (randrange(snake_size, apple_spawn_range_x, snake_size), randrange(snake_size, apple_spawn_range_y,
