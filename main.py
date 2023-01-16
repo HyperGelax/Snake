@@ -103,6 +103,7 @@ if resolution == (1920, 1080):
     start_player_coords = [(350, 700), (400, 700), (450, 700)]
     player_coords = [(350, 700), (400, 700), (450, 700)]
     start_b_place = 1012, 520
+    shop_b_place = 1012, 620
     exit_b_place = 1012, 720
     menu_b_place = 962, 620
     cont_b_place = 962, 470
@@ -110,6 +111,8 @@ if resolution == (1920, 1080):
     counter_place = 1800, 50
     start_b_draw_x = 860
     start_b_draw_y = 490
+    shop_b_draw_x = 860
+    shop_b_draw_y = 590
     exit_b_draw_x = 860
     exit_b_draw_y = 690
     menu_b_draw_x = 810
@@ -118,6 +121,9 @@ if resolution == (1920, 1080):
     cont_b_draw_y = 440
     button_size_1 = 300
     button_size_2 = 50
+    red_skin_place = 231, 488
+    red_skin_x = 181
+    red_skin_y = 438
     apple_surf = pygame.image.load('resources/1080p/normalapple.png').convert_alpha()
     head_surf_xx = pygame.image.load('resources/1080p/skins/blue/snake_head_x+.png').convert_alpha()
     head_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_head_x-.png').convert_alpha()
@@ -146,6 +152,10 @@ if resolution == (1920, 1080):
     pause_surf = pygame.image.load('resources/1080p/pause.png')
     res_b_surf = pygame.image.load('resources/1080p/res_b.png').convert_alpha()
     res_b_a_surf = pygame.image.load('resources/1080p/res_b_a.png').convert_alpha()
+    shop_backscreen = pygame.image.load('resources/1080p/shop.png').convert_alpha()
+    shop_b_surf = pygame.image.load('resources/1080p/shop_b.png').convert_alpha()
+    shop_b_a_surf = pygame.image.load('resources/1080p/shop_b_a.png').convert_alpha()
+    red_head_surf = pygame.image.load('resources/1080p/skins/red/snake_head_y+.png')
 
 elif resolution == (1280, 720):
     snake_size = 34
@@ -210,6 +220,7 @@ stop = False
 paused = False
 game_status = False
 menu_status = True
+shop_status = False
 
 # текстуры
 apple = apple_surf.get_rect(center=apple_coords)
@@ -227,6 +238,11 @@ menu_b = menu_b_surf.get_rect(center=menu_b_place)
 menu_b_a = menu_b_a_surf.get_rect(center=menu_b_place)
 res_b = res_b_surf.get_rect(center=cont_b_place)
 res_b_a = res_b_a_surf.get_rect(center=cont_b_place)
+shop_b = shop_b_surf.get_rect(center=shop_b_place)
+shop_b_a = shop_b_a_surf.get_rect(center=shop_b_place)
+red_skin_b = red_head_surf.get_rect(center=red_skin_place)
+red_skin_b_a = red_head_surf.get_rect(center=red_skin_place)
+
 
 
 # кнопки
@@ -236,6 +252,8 @@ exit_button = Button(button_size_1, button_size_2, exit_b, exit_b_a, exit_surf, 
 menu_button = Button(button_size_1, button_size_2, menu_b, menu_b_a, menu_b_surf, menu_b_a_surf)
 cont_button = Button(button_size_1, button_size_2, cont_b, cont_b_a, cont_b_surf, cont_b_a_surf)
 res_button = Button(button_size_1, button_size_2, res_b, res_b_a, res_b_surf, res_b_a_surf)
+shop_button = Button(button_size_1, button_size_2, shop_b, shop_b_a, shop_b_surf, shop_b_a_surf)
+red_skin_button = Button(button_size_2, button_size_2, red_skin_b, menu_b_a, red_head_surf, red_head_surf)
 
 # основные функции
 
@@ -283,6 +301,7 @@ def extension():
         player_coords.insert(0, (timex, timey - snake_size))
     if player_coords[0][1] - player_coords[1][1] > 0:
         player_coords.insert(0, (timex, timey + snake_size))
+
 
 def snake():
     global head_surf_xx, head_surf_y, head_surf_x, head_surf_yy, body_surf_x, body_surf_y, player_coords, direction, \
@@ -443,11 +462,35 @@ def game():
     pygame.display.flip()
 
 
+def red_skin_operation():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'red'""").fetchall()[0][0]
+    if result == 'Closed':
+        money = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
+        if money >= 500:
+            cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (money - 500, 'rubies'))
+            cur.execute("""UPDATE info SET content = 'Set' WHERE title = 'red'""")
+    if result == 'Bought':
+        cur.execute("""UPDATE info SET content = 'Set' WHERE title = 'red'""")
+    if result == 'Set':
+        pass
+    con.commit()
+    con.close()
+
+
+def shop():
+    screen.blit(shop_backscreen, menu_back)
+    red_skin_button.draw(red_skin_x, red_skin_y, red_skin_operation)
+    pygame.display.flip()
+
+
 def menu():
     screen.blit(menu_surf, menu_back)
 
     exit_button.draw(exit_b_draw_x, exit_b_draw_y, sys.exit)
     start_button.draw(start_b_draw_x, start_b_draw_y, game_switch_1)
+    shop_button.draw(shop_b_draw_x, shop_b_draw_y, game_switch_4)
 
     con = sqlite3.connect(bd)
     cur = con.cursor()
@@ -501,6 +544,23 @@ def game_switch_3():
     FPS = 5
 
 
+def game_switch_4():
+    global menu_status, shop_status
+    menu_status = False
+    shop_status = True
+
+
+def game_switch_5():
+    global menu_status, shop_status
+    menu_status = True
+    shop_status = False
+
+
+def skin_change1():
+    global head_surf_yy
+    head_surf_yy = pygame.image.load('resources/1080p/skins/red/snake_head_y+.png').convert_alpha()
+
+
 while running:
     clock.tick(FPS)
 
@@ -533,5 +593,7 @@ while running:
         menu()
     if game_status:
         game()
+    if shop_status:
+        shop()
 
 pygame.quit()
