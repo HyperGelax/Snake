@@ -122,8 +122,8 @@ if resolution == (1920, 1080):
     button_size_1 = 300
     button_size_2 = 50
     red_skin_place = 231, 488
-    red_skin_x = 181
-    red_skin_y = 438
+    red_skin_x = 206
+    red_skin_y = 464
     apple_surf = pygame.image.load('resources/1080p/normalapple.png').convert_alpha()
     head_surf_xx = pygame.image.load('resources/1080p/skins/blue/snake_head_x+.png').convert_alpha()
     head_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_head_x-.png').convert_alpha()
