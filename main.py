@@ -2,6 +2,7 @@ import pygame
 import sqlite3
 from random import randrange, uniform
 import sys
+import time
 
 pygame.init()
 screen = pygame.display.set_mode((500, 500))
@@ -107,6 +108,7 @@ if resolution == (1920, 1080):
     exit_b_place = 1012, 720
     menu_b_place = 962, 620
     cont_b_place = 962, 470
+    menu_shop_b_place = 150, 1055
     backscreen_place = 960, 540
     counter_place = 1800, 50
     start_b_draw_x = 860
@@ -124,6 +126,9 @@ if resolution == (1920, 1080):
     red_skin_place = 231, 488
     red_skin_x = 206
     red_skin_y = 464
+    menu_shop_x = 0
+    menu_shop_y = 1030
+    ruby_place = 1700, 930
     apple_surf = pygame.image.load('resources/1080p/normalapple.png').convert_alpha()
     head_surf_xx = pygame.image.load('resources/1080p/skins/blue/snake_head_x+.png').convert_alpha()
     head_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_head_x-.png').convert_alpha()
@@ -156,6 +161,7 @@ if resolution == (1920, 1080):
     shop_b_surf = pygame.image.load('resources/1080p/shop_b.png').convert_alpha()
     shop_b_a_surf = pygame.image.load('resources/1080p/shop_b_a.png').convert_alpha()
     red_head_surf = pygame.image.load('resources/1080p/skins/red/snake_head_y+.png')
+    ruby_surf = pygame.image.load('resources/1080p/ruby.png').convert_alpha()
 
 elif resolution == (1280, 720):
     snake_size = 34
@@ -236,12 +242,15 @@ cont_b_a = cont_b_a_surf.get_rect(center=cont_b_place)
 pause_m = pause_surf.get_rect(center=menu_place)
 menu_b = menu_b_surf.get_rect(center=menu_b_place)
 menu_b_a = menu_b_a_surf.get_rect(center=menu_b_place)
+menu_s_b = menu_b_surf.get_rect(center=menu_shop_b_place)
+menu_s_b_a = menu_b_a_surf.get_rect(center=menu_shop_b_place)
 res_b = res_b_surf.get_rect(center=cont_b_place)
 res_b_a = res_b_a_surf.get_rect(center=cont_b_place)
 shop_b = shop_b_surf.get_rect(center=shop_b_place)
 shop_b_a = shop_b_a_surf.get_rect(center=shop_b_place)
 red_skin_b = red_head_surf.get_rect(center=red_skin_place)
 red_skin_b_a = red_head_surf.get_rect(center=red_skin_place)
+ruby = ruby_surf.get_rect(center=ruby_place)
 
 
 
@@ -254,6 +263,7 @@ cont_button = Button(button_size_1, button_size_2, cont_b, cont_b_a, cont_b_surf
 res_button = Button(button_size_1, button_size_2, res_b, res_b_a, res_b_surf, res_b_a_surf)
 shop_button = Button(button_size_1, button_size_2, shop_b, shop_b_a, shop_b_surf, shop_b_a_surf)
 red_skin_button = Button(button_size_2, button_size_2, red_skin_b, menu_b_a, red_head_surf, red_head_surf)
+menu_shop_button = Button(button_size_1, button_size_2, menu_s_b, menu_s_b_a, menu_b_surf, menu_b_a_surf)
 
 # основные функции
 
@@ -481,7 +491,16 @@ def red_skin_operation():
 
 def shop():
     screen.blit(shop_backscreen, menu_back)
+    menu_shop_button.draw(menu_shop_x, menu_shop_y, game_switch_5)
     red_skin_button.draw(red_skin_x, red_skin_y, red_skin_operation)
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    if resolution == (1920, 1080):
+        f = pygame.font.Font('C:\WINDOWS\Fonts\impact.ttf', 36)
+        rubies = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
+        text = f.render(f'{rubies}', True, DARK_GRAY)
+        place = text.get_rect(center=(1800, 25))
+        screen.blit(text, place)
     pygame.display.flip()
 
 
@@ -491,6 +510,7 @@ def menu():
     exit_button.draw(exit_b_draw_x, exit_b_draw_y, sys.exit)
     start_button.draw(start_b_draw_x, start_b_draw_y, game_switch_1)
     shop_button.draw(shop_b_draw_x, shop_b_draw_y, game_switch_4)
+    screen.blit(ruby_surf, ruby)
 
     con = sqlite3.connect(bd)
     cur = con.cursor()
@@ -532,6 +552,7 @@ def game_switch_1():
 
 def game_switch_2():
     global game_status, menu_status, FPS
+    time.sleep(0.1)
     game_status = False
     menu_status = True
     new_game()
