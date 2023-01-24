@@ -10,7 +10,6 @@ pygame.display.set_caption("Start")
 clock = pygame.time.Clock()
 bd = 'data.db'
 
-
 resolution = 0
 full_hd_surf = pygame.image.load("resources/resolution/full_hd.png")
 full_hd_a_surf = pygame.image.load("resources/resolution/full_hd_a.png")
@@ -95,6 +94,11 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Змейка")
 clock = pygame.time.Clock()
 
+con = sqlite3.connect(bd)
+cur = con.cursor()
+old_skin = cur.execute("""SELECT title FROM info WHERE content = 'Set'""").fetchall()[0][0]
+con.close()
+
 
 if resolution == (1920, 1080):
     snake_size = 50
@@ -129,10 +133,13 @@ if resolution == (1920, 1080):
     menu_shop_x = 0
     menu_shop_y = 1030
     ruby_place = 1700, 930
+    blue_skin_place = 663, 488
+    blue_skin_x = 638
+    blue_skin_y = 464
     apple_surf = pygame.image.load('resources/1080p/normalapple.png').convert_alpha()
     head_surf_xx = pygame.image.load('resources/1080p/skins/blue/snake_head_x+.png').convert_alpha()
     head_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_head_x-.png').convert_alpha()
-    head_surf_yy = pygame.image.load('resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
+    head_surf_yy = pygame.image.load(f'resources/1080p/skins/{old_skin}/snake_head_y+.png').convert_alpha()
     head_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_head_y-.png').convert_alpha()
     body_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_body_x.png').convert_alpha()
     body_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_body_y.png').convert_alpha()
@@ -162,6 +169,8 @@ if resolution == (1920, 1080):
     shop_b_a_surf = pygame.image.load('resources/1080p/shop_b_a.png').convert_alpha()
     red_head_surf = pygame.image.load('resources/1080p/skins/red/snake_head_y+.png')
     ruby_surf = pygame.image.load('resources/1080p/ruby.png').convert_alpha()
+    selected_surf = pygame.image.load('resources/1080p/selected.png').convert_alpha()
+    blue_head_surf = pygame.image.load(f'resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
 
 elif resolution == (1280, 720):
     snake_size = 34
@@ -251,8 +260,8 @@ shop_b_a = shop_b_a_surf.get_rect(center=shop_b_place)
 red_skin_b = red_head_surf.get_rect(center=red_skin_place)
 red_skin_b_a = red_head_surf.get_rect(center=red_skin_place)
 ruby = ruby_surf.get_rect(center=ruby_place)
-
-
+blue_skin = blue_head_surf.get_rect(center=blue_skin_place)
+blue_skin_a = blue_head_surf.get_rect(center=blue_skin_place)
 
 # кнопки
 
@@ -262,10 +271,22 @@ menu_button = Button(button_size_1, button_size_2, menu_b, menu_b_a, menu_b_surf
 cont_button = Button(button_size_1, button_size_2, cont_b, cont_b_a, cont_b_surf, cont_b_a_surf)
 res_button = Button(button_size_1, button_size_2, res_b, res_b_a, res_b_surf, res_b_a_surf)
 shop_button = Button(button_size_1, button_size_2, shop_b, shop_b_a, shop_b_surf, shop_b_a_surf)
-red_skin_button = Button(button_size_2, button_size_2, red_skin_b, menu_b_a, red_head_surf, red_head_surf)
+red_skin_button = Button(button_size_2, button_size_2, red_skin_b, red_skin_b_a, red_head_surf, red_head_surf)
 menu_shop_button = Button(button_size_1, button_size_2, menu_s_b, menu_s_b_a, menu_b_surf, menu_b_a_surf)
+blue_skin_button = Button(button_size_2, button_size_2, blue_skin, blue_skin_a, blue_head_surf, blue_head_surf)
+
 
 # основные функции
+
+def check_selected_skin():
+    global old_skin
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    for i in ['blue', 'yellow', 'red', 'green']:
+        result = cur.execute("""SELECT content FROM info WHERE title = ?""", (i, )).fetchall()[0][0]
+        if result == 'Set':
+            old_skin = i
+            return
 
 
 def new_game():
@@ -275,7 +296,7 @@ def new_game():
     result = cur.execute("""SELECT content FROM info WHERE title = 'record'""").fetchall()[0][0]
     if result < score:
         cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (score, 'record'))
-    cur.execute("""UPDATE info SET content = content + 1 WHERE title = ?""", ('played', ))
+    cur.execute("""UPDATE info SET content = content + 1 WHERE title = ?""", ('played',))
     multiplier = uniform(score / 20, score / 10)
     rubies = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
     if multiplier > 1:
@@ -481,8 +502,31 @@ def red_skin_operation():
         if money >= 500:
             cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (money - 500, 'rubies'))
             cur.execute("""UPDATE info SET content = 'Set' WHERE title = 'red'""")
+
     if result == 'Bought':
+        skin_change1()
         cur.execute("""UPDATE info SET content = 'Set' WHERE title = 'red'""")
+        cur.execute("""UPDATE info SET content = 'Bought' WHERE title = ?""", (old_skin,))
+    if result == 'Set':
+        pass
+    con.commit()
+    con.close()
+
+
+def blue_skin_operation():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'blue'""").fetchall()[0][0]
+    if result == 'Closed':
+        money = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
+        if money >= 500:
+            cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (money - 500, 'rubies'))
+            cur.execute("""UPDATE info SET content = 'Set' WHERE title = 'blue'""")
+
+    if result == 'Bought':
+        skin_change2()
+        cur.execute("""UPDATE info SET content = 'Set' WHERE title = 'blue'""")
+        cur.execute("""UPDATE info SET content = 'Bought' WHERE title = ?""", (old_skin,))
     if result == 'Set':
         pass
     con.commit()
@@ -493,6 +537,7 @@ def shop():
     screen.blit(shop_backscreen, menu_back)
     menu_shop_button.draw(menu_shop_x, menu_shop_y, game_switch_5)
     red_skin_button.draw(red_skin_x, red_skin_y, red_skin_operation)
+    blue_skin_button.draw(blue_skin_x, blue_skin_y, blue_skin_operation)
     con = sqlite3.connect(bd)
     cur = con.cursor()
     if resolution == (1920, 1080):
@@ -501,6 +546,14 @@ def shop():
         text = f.render(f'{rubies}', True, DARK_GRAY)
         place = text.get_rect(center=(1800, 25))
         screen.blit(text, place)
+    check_selected_skin()
+    # надо сделать что бы чекало скины по отдельности
+    if old_skin == 'red':
+        selected = selected_surf.get_rect(center=red_skin_place)
+        screen.blit(selected_surf, selected)
+    if old_skin == 'blue':
+        selected = selected_surf.get_rect(center=blue_skin_place)
+        screen.blit(selected_surf, selected)
     pygame.display.flip()
 
 
@@ -580,6 +633,11 @@ def game_switch_5():
 def skin_change1():
     global head_surf_yy
     head_surf_yy = pygame.image.load('resources/1080p/skins/red/snake_head_y+.png').convert_alpha()
+
+
+def skin_change2():
+    global head_surf_yy
+    head_surf_yy = pygame.image.load('resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
 
 
 while running:
