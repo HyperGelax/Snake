@@ -171,6 +171,7 @@ if resolution == (1920, 1080):
     ruby_surf = pygame.image.load('resources/1080p/ruby.png').convert_alpha()
     selected_surf = pygame.image.load('resources/1080p/selected.png').convert_alpha()
     blue_head_surf = pygame.image.load(f'resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
+    lock_surf = pygame.image.load(f'resources/1080p/lock.png').convert_alpha()
 
 elif resolution == (1280, 720):
     snake_size = 34
@@ -493,6 +494,15 @@ def game():
     pygame.display.flip()
 
 
+def red_skin_check():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'red'""").fetchall()[0][0]
+    if result == 'Closed':
+        lock = lock_surf.get_rect(center=red_skin_place)
+        screen.blit(lock_surf, lock)
+
+
 def red_skin_operation():
     con = sqlite3.connect(bd)
     cur = con.cursor()
@@ -501,7 +511,7 @@ def red_skin_operation():
         money = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
         if money >= 500:
             cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (money - 500, 'rubies'))
-            cur.execute("""UPDATE info SET content = 'Set' WHERE title = 'red'""")
+            cur.execute("""UPDATE info SET content = 'Bought' WHERE title = 'red'""")
 
     if result == 'Bought':
         skin_change1()
@@ -521,7 +531,7 @@ def blue_skin_operation():
         money = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
         if money >= 500:
             cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (money - 500, 'rubies'))
-            cur.execute("""UPDATE info SET content = 'Set' WHERE title = 'blue'""")
+            cur.execute("""UPDATE info SET content = 'Bought' WHERE title = 'blue'""")
 
     if result == 'Bought':
         skin_change2()
@@ -547,6 +557,7 @@ def shop():
         place = text.get_rect(center=(1800, 25))
         screen.blit(text, place)
     check_selected_skin()
+    red_skin_check()
     # надо сделать что бы чекало скины по отдельности
     if old_skin == 'red':
         selected = selected_surf.get_rect(center=red_skin_place)
@@ -631,13 +642,43 @@ def game_switch_5():
 
 
 def skin_change1():
-    global head_surf_yy
-    head_surf_yy = pygame.image.load('resources/1080p/skins/red/snake_head_y+.png').convert_alpha()
+    global head_surf_xx, head_surf_y, head_surf_x, head_surf_yy, body_surf_x, body_surf_y, player_coords, direction, \
+        screen, snake_r_xy, snake_r_xy_, snake_r_x_y_, snake_r_x_y, snake_back_x, snake_back_xx, snake_back_y, \
+        snake_back_yy
+    head_surf_xx = pygame.image.load('resources/1080p/skins/red/snake_head_x+.png').convert_alpha()
+    head_surf_x = pygame.image.load('resources/1080p/skins/red/snake_head_x-.png').convert_alpha()
+    head_surf_yy = pygame.image.load(f'resources/1080p/skins/red/snake_head_y+.png').convert_alpha()
+    head_surf_y = pygame.image.load('resources/1080p/skins/red/snake_head_y-.png').convert_alpha()
+    body_surf_x = pygame.image.load('resources/1080p/skins/red/snake_body_x.png').convert_alpha()
+    body_surf_y = pygame.image.load('resources/1080p/skins/red/snake_body_y.png').convert_alpha()
+    snake_r_xy = pygame.image.load('resources/1080p/skins/red/snake_rotation_x+y+.png').convert_alpha()
+    snake_r_x_y = pygame.image.load('resources/1080p/skins/red/snake_rotation_x-y+.png').convert_alpha()
+    snake_r_xy_ = pygame.image.load('resources/1080p/skins/red/snake_rotation_x+y-.png').convert_alpha()
+    snake_r_x_y_ = pygame.image.load('resources/1080p/skins/red/snake_rotation_x-y-.png').convert_alpha()
+    snake_back_x = pygame.image.load('resources/1080p/skins/red/snake_back_x+.png').convert_alpha()
+    snake_back_xx = pygame.image.load('resources/1080p/skins/red/snake_back_x-.png').convert_alpha()
+    snake_back_y = pygame.image.load('resources/1080p/skins/red/snake_back_y+.png').convert_alpha()
+    snake_back_yy = pygame.image.load('resources/1080p/skins/red/snake_back_y-.png').convert_alpha()
 
 
 def skin_change2():
-    global head_surf_yy
-    head_surf_yy = pygame.image.load('resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
+    global head_surf_xx, head_surf_y, head_surf_x, head_surf_yy, body_surf_x, body_surf_y, player_coords, direction, \
+        screen, snake_r_xy, snake_r_xy_, snake_r_x_y_, snake_r_x_y, snake_back_x, snake_back_xx, snake_back_y, \
+        snake_back_yy
+    head_surf_xx = pygame.image.load('resources/1080p/skins/blue/snake_head_x+.png').convert_alpha()
+    head_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_head_x-.png').convert_alpha()
+    head_surf_yy = pygame.image.load(f'resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
+    head_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_head_y-.png').convert_alpha()
+    body_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_body_x.png').convert_alpha()
+    body_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_body_y.png').convert_alpha()
+    snake_r_xy = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x+y+.png').convert_alpha()
+    snake_r_x_y = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x-y+.png').convert_alpha()
+    snake_r_xy_ = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x+y-.png').convert_alpha()
+    snake_r_x_y_ = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x-y-.png').convert_alpha()
+    snake_back_x = pygame.image.load('resources/1080p/skins/blue/snake_back_x+.png').convert_alpha()
+    snake_back_xx = pygame.image.load('resources/1080p/skins/blue/snake_back_x-.png').convert_alpha()
+    snake_back_y = pygame.image.load('resources/1080p/skins/blue/snake_back_y+.png').convert_alpha()
+    snake_back_yy = pygame.image.load('resources/1080p/skins/blue/snake_back_y-.png').convert_alpha()
 
 
 while running:
