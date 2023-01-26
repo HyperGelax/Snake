@@ -97,6 +97,7 @@ clock = pygame.time.Clock()
 con = sqlite3.connect(bd)
 cur = con.cursor()
 old_skin = cur.execute("""SELECT title FROM info WHERE content = 'Set'""").fetchall()[0][0]
+old_wall = cur.execute("""SELECT title FROM info WHERE content = 'Set1'""").fetchall()[0][0]
 con.close()
 
 
@@ -132,10 +133,24 @@ if resolution == (1920, 1080):
     red_skin_y = 464
     menu_shop_x = 0
     menu_shop_y = 1030
-    ruby_place = 1700, 930
+    ruby_place = 1750, 930
     blue_skin_place = 663, 488
     blue_skin_x = 638
     blue_skin_y = 464
+    first_lock = 663, 870
+    second_lock = 231, 870
+    cube1_place = 1255, 488
+    cube_x = 1230
+    cube_y = 464
+    cube2_place = 1687, 488
+    cube2_x = 1662
+    cube2_y = 464
+    cube3_place = 1255, 875
+    cube3_x = 1230
+    cube3_y = 851
+    cube4_place = 1687, 875
+    cube4_x = 1662
+    cube4_y = 851
     apple_surf = pygame.image.load('resources/1080p/normalapple.png').convert_alpha()
     head_surf_xx = pygame.image.load('resources/1080p/skins/blue/snake_head_x+.png').convert_alpha()
     head_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_head_x-.png').convert_alpha()
@@ -172,6 +187,13 @@ if resolution == (1920, 1080):
     selected_surf = pygame.image.load('resources/1080p/selected.png').convert_alpha()
     blue_head_surf = pygame.image.load(f'resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
     lock_surf = pygame.image.load(f'resources/1080p/lock.png').convert_alpha()
+    wall2_surf = pygame.image.load(f'resources/1080p/wall2.png').convert_alpha()
+    wall3_surf = pygame.image.load(f'resources/1080p/wall3.png').convert_alpha()
+    wall4_surf = pygame.image.load(f'resources/1080p/wall4.png').convert_alpha()
+    cube1_surf = pygame.image.load(f'resources/1080p/cube1.png').convert_alpha()
+    cube2_surf = pygame.image.load(f'resources/1080p/cube2.png').convert_alpha()
+    cube3_surf = pygame.image.load(f'resources/1080p/cube3.png').convert_alpha()
+    cube4_surf = pygame.image.load(f'resources/1080p/cube4.png').convert_alpha()
 
 elif resolution == (1280, 720):
     snake_size = 34
@@ -263,6 +285,10 @@ red_skin_b_a = red_head_surf.get_rect(center=red_skin_place)
 ruby = ruby_surf.get_rect(center=ruby_place)
 blue_skin = blue_head_surf.get_rect(center=blue_skin_place)
 blue_skin_a = blue_head_surf.get_rect(center=blue_skin_place)
+wall1 = backscreen_surf.get_rect(center=cube1_place)
+wall2 = backscreen_surf.get_rect(center=cube2_place)
+wall3 = backscreen_surf.get_rect(center=cube3_place)
+wall4 = backscreen_surf.get_rect(center=cube4_place)
 
 # кнопки
 
@@ -275,6 +301,10 @@ shop_button = Button(button_size_1, button_size_2, shop_b, shop_b_a, shop_b_surf
 red_skin_button = Button(button_size_2, button_size_2, red_skin_b, red_skin_b_a, red_head_surf, red_head_surf)
 menu_shop_button = Button(button_size_1, button_size_2, menu_s_b, menu_s_b_a, menu_b_surf, menu_b_a_surf)
 blue_skin_button = Button(button_size_2, button_size_2, blue_skin, blue_skin_a, blue_head_surf, blue_head_surf)
+wall1_button = Button(button_size_2, button_size_2, wall1, wall1, cube1_surf, cube1_surf)
+wall2_button = Button(button_size_2, button_size_2, wall2, wall2, cube2_surf, cube2_surf)
+wall3_button = Button(button_size_2, button_size_2, wall2, wall2, cube3_surf, cube3_surf)
+wall4_button = Button(button_size_2, button_size_2, wall2, wall2, cube4_surf, cube4_surf)
 
 
 # основные функции
@@ -287,6 +317,17 @@ def check_selected_skin():
         result = cur.execute("""SELECT content FROM info WHERE title = ?""", (i, )).fetchall()[0][0]
         if result == 'Set':
             old_skin = i
+            return
+
+
+def check_selected_wall():
+    global old_wall
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    for i in ['wall1', 'wall2', 'wall3', 'wall4']:
+        result = cur.execute("""SELECT content FROM info WHERE title = ?""", (i, )).fetchall()[0][0]
+        if result == 'Set1':
+            old_wall = i
             return
 
 
@@ -503,6 +544,33 @@ def red_skin_check():
         screen.blit(lock_surf, lock)
 
 
+def wall2_check():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'wall2'""").fetchall()[0][0]
+    if result == 'Closed1':
+        lock = lock_surf.get_rect(center=cube2_place)
+        screen.blit(lock_surf, lock)
+
+
+def wall3_check():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'wall3'""").fetchall()[0][0]
+    if result == 'Closed1':
+        lock = lock_surf.get_rect(center=cube3_place)
+        screen.blit(lock_surf, lock)
+
+
+def wall4_check():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'wall4'""").fetchall()[0][0]
+    if result == 'Closed1':
+        lock = lock_surf.get_rect(center=cube4_place)
+        screen.blit(lock_surf, lock)
+
+
 def red_skin_operation():
     con = sqlite3.connect(bd)
     cur = con.cursor()
@@ -543,11 +611,103 @@ def blue_skin_operation():
     con.close()
 
 
+def wall1_operation():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'wall1'""").fetchall()[0][0]
+    if result == 'Closed1':
+        money = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
+        if money >= 500:
+            cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (money - 300, 'rubies'))
+            cur.execute("""UPDATE info SET content = 'Bought1' WHERE title = 'wall1'""")
+
+    if result == 'Bought1':
+        wall1_change()
+        cur.execute("""UPDATE info SET content = 'Set1' WHERE title = 'wall1'""")
+        cur.execute("""UPDATE info SET content = 'Bought1' WHERE title = ?""", (old_wall,))
+    if result == 'Set1':
+        pass
+    con.commit()
+    con.close()
+
+
+def wall2_operation():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'wall2'""").fetchall()[0][0]
+    if result == 'Closed1':
+        money = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
+        if money >= 500:
+            cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (money - 300, 'rubies'))
+            cur.execute("""UPDATE info SET content = 'Bought1' WHERE title = 'wall2'""")
+
+    if result == 'Bought1':
+        wall2_change()
+        cur.execute("""UPDATE info SET content = 'Set1' WHERE title = 'wall2'""")
+        cur.execute("""UPDATE info SET content = 'Bought1' WHERE title = ?""", (old_wall,))
+    if result == 'Set1':
+        pass
+    con.commit()
+    con.close()
+
+
+def wall3_operation():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'wall3'""").fetchall()[0][0]
+    if result == 'Closed1':
+        money = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
+        if money >= 500:
+            cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (money - 300, 'rubies'))
+            cur.execute("""UPDATE info SET content = 'Bought1' WHERE title = 'wall3'""")
+
+    if result == 'Bought1':
+        wall3_change()
+        cur.execute("""UPDATE info SET content = 'Set1' WHERE title = 'wall3'""")
+        cur.execute("""UPDATE info SET content = 'Bought1' WHERE title = ?""", (old_wall,))
+    if result == 'Set1':
+        pass
+    con.commit()
+    con.close()
+
+
+def wall4_operation():
+    con = sqlite3.connect(bd)
+    cur = con.cursor()
+    result = cur.execute("""SELECT content FROM info WHERE title = 'wall4'""").fetchall()[0][0]
+    if result == 'Closed1':
+        money = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
+        if money >= 500:
+            cur.execute("""UPDATE info SET content = ? WHERE title = ?""", (money - 300, 'rubies'))
+            cur.execute("""UPDATE info SET content = 'Bought1' WHERE title = 'wall4'""")
+
+    if result == 'Bought1':
+        wall4_change()
+        cur.execute("""UPDATE info SET content = 'Set1' WHERE title = 'wall4'""")
+        cur.execute("""UPDATE info SET content = 'Bought1' WHERE title = ?""", (old_wall,))
+    if result == 'Set1':
+        pass
+    con.commit()
+    con.close()
+
+
 def shop():
     screen.blit(shop_backscreen, menu_back)
     menu_shop_button.draw(menu_shop_x, menu_shop_y, game_switch_5)
     red_skin_button.draw(red_skin_x, red_skin_y, red_skin_operation)
     blue_skin_button.draw(blue_skin_x, blue_skin_y, blue_skin_operation)
+    wall1_button.draw(cube_x, cube_y, wall1_operation)
+    wall2_button.draw(cube2_x, cube2_y, wall2_operation)
+    wall3_button.draw(cube3_x, cube3_y, wall3_operation)
+    wall4_button.draw(cube4_x, cube4_y, wall4_operation)
+    lock = lock_surf.get_rect(center=first_lock)
+    screen.blit(lock_surf, lock)
+    lock = lock_surf.get_rect(center=second_lock)
+    screen.blit(lock_surf, lock)
+    screen.blit(cube1_surf, cube1_surf.get_rect(center=cube1_place))
+    screen.blit(cube2_surf, cube2_surf.get_rect(center=cube2_place))
+    screen.blit(cube3_surf, cube3_surf.get_rect(center=cube3_place))
+    screen.blit(cube4_surf, cube4_surf.get_rect(center=cube4_place))
     con = sqlite3.connect(bd)
     cur = con.cursor()
     if resolution == (1920, 1080):
@@ -558,13 +718,34 @@ def shop():
         screen.blit(text, place)
     check_selected_skin()
     red_skin_check()
-    # надо сделать что бы чекало скины по отдельности
+    check_selected_wall()
+    wall2_check()
+    wall3_check()
+    wall4_check()
     if old_skin == 'red':
-        selected = selected_surf.get_rect(center=red_skin_place)
-        screen.blit(selected_surf, selected)
+        if resolution == (1920, 1080):
+            selected = selected_surf.get_rect(center=red_skin_place)
+            screen.blit(selected_surf, selected)
     if old_skin == 'blue':
-        selected = selected_surf.get_rect(center=blue_skin_place)
-        screen.blit(selected_surf, selected)
+        if resolution == (1920, 1080):
+            selected = selected_surf.get_rect(center=blue_skin_place)
+            screen.blit(selected_surf, selected)
+    if old_wall == 'wall1':
+        if resolution == (1920, 1080):
+            selected = selected_surf.get_rect(center=cube1_place)
+            screen.blit(selected_surf, selected)
+    if old_wall == 'wall2':
+        if resolution == (1920, 1080):
+            selected = selected_surf.get_rect(center=cube2_place)
+            screen.blit(selected_surf, selected)
+    if old_wall == 'wall3':
+        if resolution == (1920, 1080):
+            selected = selected_surf.get_rect(center=cube3_place)
+            screen.blit(selected_surf, selected)
+    if old_wall == 'wall4':
+        if resolution == (1920, 1080):
+            selected = selected_surf.get_rect(center=cube4_place)
+            screen.blit(selected_surf, selected)
     pygame.display.flip()
 
 
@@ -679,6 +860,30 @@ def skin_change2():
     snake_back_xx = pygame.image.load('resources/1080p/skins/blue/snake_back_x-.png').convert_alpha()
     snake_back_y = pygame.image.load('resources/1080p/skins/blue/snake_back_y+.png').convert_alpha()
     snake_back_yy = pygame.image.load('resources/1080p/skins/blue/snake_back_y-.png').convert_alpha()
+
+
+def wall1_change():
+    global backscreen_surf
+    if resolution == (1920, 1080):
+        backscreen_surf = pygame.image.load('resources/1080p/backscreen.png').convert()
+
+
+def wall2_change():
+    global backscreen_surf
+    if resolution == (1920, 1080):
+        backscreen_surf = pygame.image.load('resources/1080p/wall2.png').convert()
+
+
+def wall3_change():
+    global backscreen_surf
+    if resolution == (1920, 1080):
+        backscreen_surf = pygame.image.load('resources/1080p/wall3.png').convert()
+
+
+def wall4_change():
+    global backscreen_surf
+    if resolution == (1920, 1080):
+        backscreen_surf = pygame.image.load('resources/1080p/wall4.png').convert()
 
 
 while running:
