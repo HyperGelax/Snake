@@ -194,6 +194,8 @@ if resolution == (1920, 1080):
     cube2_surf = pygame.image.load(f'resources/1080p/cube2.png').convert_alpha()
     cube3_surf = pygame.image.load(f'resources/1080p/cube3.png').convert_alpha()
     cube4_surf = pygame.image.load(f'resources/1080p/cube4.png').convert_alpha()
+    yellow_head_surf = pygame.image.load(f'resources/1080p/skins/yellow/snake_head_y+.png').convert_alpha()
+    green_head_surf = pygame.image.load(f'resources/1080p/skins/green/snake_head_y+.png').convert_alpha()
 
 elif resolution == (1280, 720):
     snake_size = 34
@@ -218,21 +220,49 @@ elif resolution == (1280, 720):
     cont_b_draw_y = 293
     button_size_1 = 200
     button_size_2 = 33
+    menu_shop_b_place = 100, 703
+    shop_b_place = 675, 413
+    shop_b_draw_x = 573
+    shop_b_draw_y = 393
+
+    red_skin_place = 154, 325
+    red_skin_x = 137
+    red_skin_y = 309
+    menu_shop_x = 0
+    menu_shop_y = 687
+    ruby_place = 1167, 620
+    blue_skin_place = 442, 325
+    blue_skin_x = 425
+    blue_skin_y = 309
+    first_lock = 442, 580
+    second_lock = 154, 580
+    cube1_place = 837, 325
+    cube_x = 820
+    cube_y = 309
+    cube2_place = 1125, 325
+    cube2_x = 1108
+    cube2_y = 309
+    cube3_place = 837, 583
+    cube3_x = 820
+    cube3_y = 567
+    cube4_place = 1125, 583
+    cube4_x = 1108
+    cube4_y = 567
     apple_surf = pygame.image.load('resources/720p/normalapple.png').convert_alpha()
-    head_surf_xx = pygame.image.load('resources/720p/snake_head_x+.png').convert_alpha()
-    head_surf_x = pygame.image.load('resources/720p/snake_head_x-.png').convert_alpha()
-    head_surf_yy = pygame.image.load('resources/720p/snake_head_y+.png').convert_alpha()
-    head_surf_y = pygame.image.load('resources/720p/snake_head_y-.png').convert_alpha()
-    body_surf_x = pygame.image.load('resources/720p/snake_body_x.png').convert_alpha()
-    body_surf_y = pygame.image.load('resources/720p/snake_body_y.png').convert_alpha()
-    snake_r_xy = pygame.image.load('resources/720p/snake_rotation_x+y+.png').convert_alpha()
-    snake_r_x_y = pygame.image.load('resources/720p/snake_rotation_x-y+.png').convert_alpha()
-    snake_r_xy_ = pygame.image.load('resources/720p/snake_rotation_x+y-.png').convert_alpha()
-    snake_r_x_y_ = pygame.image.load('resources/720p/snake_rotation_x-y-.png').convert_alpha()
-    snake_back_x = pygame.image.load('resources/720p/snake_back_x+.png').convert_alpha()
-    snake_back_xx = pygame.image.load('resources/720p/snake_back_x-.png').convert_alpha()
-    snake_back_y = pygame.image.load('resources/720p/snake_back_y+.png').convert_alpha()
-    snake_back_yy = pygame.image.load('resources/720p/snake_back_y-.png').convert_alpha()
+    head_surf_xx = pygame.image.load('resources/720p/skins/blue/snake_head_x+.png').convert_alpha()
+    head_surf_x = pygame.image.load('resources/720p/skins/blue/snake_head_x-.png').convert_alpha()
+    head_surf_yy = pygame.image.load(f'resources/720p/skins/{old_skin}/snake_head_y+.png').convert_alpha()
+    head_surf_y = pygame.image.load('resources/720p/skins/blue/snake_head_y-.png').convert_alpha()
+    body_surf_x = pygame.image.load('resources/720p/skins/blue/snake_body_x.png').convert_alpha()
+    body_surf_y = pygame.image.load('resources/720p/skins/blue/snake_body_y.png').convert_alpha()
+    snake_r_xy = pygame.image.load('resources/720p/skins/blue/snake_rotation_x+y+.png').convert_alpha()
+    snake_r_x_y = pygame.image.load('resources/720p/skins/blue/snake_rotation_x-y+.png').convert_alpha()
+    snake_r_xy_ = pygame.image.load('resources/720p/skins/blue/snake_rotation_x+y-.png').convert_alpha()
+    snake_r_x_y_ = pygame.image.load('resources/720p/skins/blue/snake_rotation_x-y-.png').convert_alpha()
+    snake_back_x = pygame.image.load('resources/720p/skins/blue/snake_back_x+.png').convert_alpha()
+    snake_back_xx = pygame.image.load('resources/720p/skins/blue/snake_back_x-.png').convert_alpha()
+    snake_back_y = pygame.image.load('resources/720p/skins/blue/snake_back_y+.png').convert_alpha()
+    snake_back_yy = pygame.image.load('resources/720p/skins/blue/snake_back_y-.png').convert_alpha()
     backscreen_surf = pygame.image.load('resources/720p/backscreen.png').convert()
     menu_surf = pygame.image.load('resources/720p/menu back.png').convert()
     start_surf = pygame.image.load('resources/720p/start button.png').convert_alpha()
@@ -246,6 +276,23 @@ elif resolution == (1280, 720):
     pause_surf = pygame.image.load('resources/720p/pause.png')
     res_b_surf = pygame.image.load('resources/720p/res_b.png').convert_alpha()
     res_b_a_surf = pygame.image.load('resources/720p/res_b_a.png').convert_alpha()
+    shop_backscreen = pygame.image.load('resources/720p/shop.png').convert_alpha()
+    shop_b_surf = pygame.image.load('resources/720p/shop_b.png').convert_alpha()
+    shop_b_a_surf = pygame.image.load('resources/720p/shop_b_a.png').convert_alpha()
+    red_head_surf = pygame.image.load('resources/720p/skins/red/snake_head_y+.png')
+    ruby_surf = pygame.image.load('resources/720p/ruby.png').convert_alpha()
+    selected_surf = pygame.image.load('resources/720p/selected.png').convert_alpha()
+    blue_head_surf = pygame.image.load(f'resources/720p/skins/blue/snake_head_y+.png').convert_alpha()
+    lock_surf = pygame.image.load(f'resources/720p/lock.png').convert_alpha()
+    wall2_surf = pygame.image.load(f'resources/720p/wall2.png').convert_alpha()
+    wall3_surf = pygame.image.load(f'resources/720p/wall3.png').convert_alpha()
+    wall4_surf = pygame.image.load(f'resources/720p/wall4.png').convert_alpha()
+    cube1_surf = pygame.image.load(f'resources/720p/cube1.png').convert_alpha()
+    cube2_surf = pygame.image.load(f'resources/720p/cube2.png').convert_alpha()
+    cube3_surf = pygame.image.load(f'resources/720p/cube3.png').convert_alpha()
+    cube4_surf = pygame.image.load(f'resources/720p/cube4.png').convert_alpha()
+    yellow_head_surf = pygame.image.load(f'resources/720p/skins/yellow/snake_head_y+.png').convert_alpha()
+    green_head_surf = pygame.image.load(f'resources/720p/skins/green/snake_head_y+.png').convert_alpha()
 
 # базовые переменные
 score = 0
@@ -289,6 +336,8 @@ wall1 = backscreen_surf.get_rect(center=cube1_place)
 wall2 = backscreen_surf.get_rect(center=cube2_place)
 wall3 = backscreen_surf.get_rect(center=cube3_place)
 wall4 = backscreen_surf.get_rect(center=cube4_place)
+yellow_head = yellow_head_surf.get_rect(center=first_lock)
+green_head = green_head_surf.get_rect(center=second_lock)
 
 # кнопки
 
@@ -700,6 +749,8 @@ def shop():
     wall2_button.draw(cube2_x, cube2_y, wall2_operation)
     wall3_button.draw(cube3_x, cube3_y, wall3_operation)
     wall4_button.draw(cube4_x, cube4_y, wall4_operation)
+    screen.blit(green_head_surf, green_head)
+    screen.blit(yellow_head_surf, yellow_head)
     lock = lock_surf.get_rect(center=first_lock)
     screen.blit(lock_surf, lock)
     lock = lock_surf.get_rect(center=second_lock)
@@ -716,6 +767,12 @@ def shop():
         text = f.render(f'{rubies}', True, DARK_GRAY)
         place = text.get_rect(center=(1800, 25))
         screen.blit(text, place)
+    if resolution == (1280, 720):
+        f = pygame.font.Font('C:\WINDOWS\Fonts\impact.ttf', 22)
+        rubies = cur.execute("""SELECT content FROM info WHERE title = 'rubies'""").fetchall()[0][0]
+        text = f.render(f'{rubies}', True, DARK_GRAY)
+        place = text.get_rect(center=(1200, 20))
+        screen.blit(text, place)
     check_selected_skin()
     red_skin_check()
     check_selected_wall()
@@ -723,29 +780,23 @@ def shop():
     wall3_check()
     wall4_check()
     if old_skin == 'red':
-        if resolution == (1920, 1080):
-            selected = selected_surf.get_rect(center=red_skin_place)
-            screen.blit(selected_surf, selected)
+        selected = selected_surf.get_rect(center=red_skin_place)
+        screen.blit(selected_surf, selected)
     if old_skin == 'blue':
-        if resolution == (1920, 1080):
-            selected = selected_surf.get_rect(center=blue_skin_place)
-            screen.blit(selected_surf, selected)
+        selected = selected_surf.get_rect(center=blue_skin_place)
+        screen.blit(selected_surf, selected)
     if old_wall == 'wall1':
-        if resolution == (1920, 1080):
-            selected = selected_surf.get_rect(center=cube1_place)
-            screen.blit(selected_surf, selected)
+        selected = selected_surf.get_rect(center=cube1_place)
+        screen.blit(selected_surf, selected)
     if old_wall == 'wall2':
-        if resolution == (1920, 1080):
-            selected = selected_surf.get_rect(center=cube2_place)
-            screen.blit(selected_surf, selected)
+        selected = selected_surf.get_rect(center=cube2_place)
+        screen.blit(selected_surf, selected)
     if old_wall == 'wall3':
-        if resolution == (1920, 1080):
-            selected = selected_surf.get_rect(center=cube3_place)
-            screen.blit(selected_surf, selected)
+        selected = selected_surf.get_rect(center=cube3_place)
+        screen.blit(selected_surf, selected)
     if old_wall == 'wall4':
-        if resolution == (1920, 1080):
-            selected = selected_surf.get_rect(center=cube4_place)
-            screen.blit(selected_surf, selected)
+        selected = selected_surf.get_rect(center=cube4_place)
+        screen.blit(selected_surf, selected)
     pygame.display.flip()
 
 
@@ -826,64 +877,104 @@ def skin_change1():
     global head_surf_xx, head_surf_y, head_surf_x, head_surf_yy, body_surf_x, body_surf_y, player_coords, direction, \
         screen, snake_r_xy, snake_r_xy_, snake_r_x_y_, snake_r_x_y, snake_back_x, snake_back_xx, snake_back_y, \
         snake_back_yy
-    head_surf_xx = pygame.image.load('resources/1080p/skins/red/snake_head_x+.png').convert_alpha()
-    head_surf_x = pygame.image.load('resources/1080p/skins/red/snake_head_x-.png').convert_alpha()
-    head_surf_yy = pygame.image.load(f'resources/1080p/skins/red/snake_head_y+.png').convert_alpha()
-    head_surf_y = pygame.image.load('resources/1080p/skins/red/snake_head_y-.png').convert_alpha()
-    body_surf_x = pygame.image.load('resources/1080p/skins/red/snake_body_x.png').convert_alpha()
-    body_surf_y = pygame.image.load('resources/1080p/skins/red/snake_body_y.png').convert_alpha()
-    snake_r_xy = pygame.image.load('resources/1080p/skins/red/snake_rotation_x+y+.png').convert_alpha()
-    snake_r_x_y = pygame.image.load('resources/1080p/skins/red/snake_rotation_x-y+.png').convert_alpha()
-    snake_r_xy_ = pygame.image.load('resources/1080p/skins/red/snake_rotation_x+y-.png').convert_alpha()
-    snake_r_x_y_ = pygame.image.load('resources/1080p/skins/red/snake_rotation_x-y-.png').convert_alpha()
-    snake_back_x = pygame.image.load('resources/1080p/skins/red/snake_back_x+.png').convert_alpha()
-    snake_back_xx = pygame.image.load('resources/1080p/skins/red/snake_back_x-.png').convert_alpha()
-    snake_back_y = pygame.image.load('resources/1080p/skins/red/snake_back_y+.png').convert_alpha()
-    snake_back_yy = pygame.image.load('resources/1080p/skins/red/snake_back_y-.png').convert_alpha()
+    if resolution == (1920, 1080):
+        head_surf_xx = pygame.image.load('resources/1080p/skins/red/snake_head_x+.png').convert_alpha()
+        head_surf_x = pygame.image.load('resources/1080p/skins/red/snake_head_x-.png').convert_alpha()
+        head_surf_yy = pygame.image.load(f'resources/1080p/skins/red/snake_head_y+.png').convert_alpha()
+        head_surf_y = pygame.image.load('resources/1080p/skins/red/snake_head_y-.png').convert_alpha()
+        body_surf_x = pygame.image.load('resources/1080p/skins/red/snake_body_x.png').convert_alpha()
+        body_surf_y = pygame.image.load('resources/1080p/skins/red/snake_body_y.png').convert_alpha()
+        snake_r_xy = pygame.image.load('resources/1080p/skins/red/snake_rotation_x+y+.png').convert_alpha()
+        snake_r_x_y = pygame.image.load('resources/1080p/skins/red/snake_rotation_x-y+.png').convert_alpha()
+        snake_r_xy_ = pygame.image.load('resources/1080p/skins/red/snake_rotation_x+y-.png').convert_alpha()
+        snake_r_x_y_ = pygame.image.load('resources/1080p/skins/red/snake_rotation_x-y-.png').convert_alpha()
+        snake_back_x = pygame.image.load('resources/1080p/skins/red/snake_back_x+.png').convert_alpha()
+        snake_back_xx = pygame.image.load('resources/1080p/skins/red/snake_back_x-.png').convert_alpha()
+        snake_back_y = pygame.image.load('resources/1080p/skins/red/snake_back_y+.png').convert_alpha()
+        snake_back_yy = pygame.image.load('resources/1080p/skins/red/snake_back_y-.png').convert_alpha()
+    if resolution == (1280, 720):
+        head_surf_xx = pygame.image.load('resources/720p/skins/red/snake_head_x+.png').convert_alpha()
+        head_surf_x = pygame.image.load('resources/720p/skins/red/snake_head_x-.png').convert_alpha()
+        head_surf_yy = pygame.image.load(f'resources/720p/skins/red/snake_head_y+.png').convert_alpha()
+        head_surf_y = pygame.image.load('resources/720p/skins/red/snake_head_y-.png').convert_alpha()
+        body_surf_x = pygame.image.load('resources/720p/skins/red/snake_body_x.png').convert_alpha()
+        body_surf_y = pygame.image.load('resources/720p/skins/red/snake_body_y.png').convert_alpha()
+        snake_r_xy = pygame.image.load('resources/720p/skins/red/snake_rotation_x+y+.png').convert_alpha()
+        snake_r_x_y = pygame.image.load('resources/720p/skins/red/snake_rotation_x-y+.png').convert_alpha()
+        snake_r_xy_ = pygame.image.load('resources/720p/skins/red/snake_rotation_x+y-.png').convert_alpha()
+        snake_r_x_y_ = pygame.image.load('resources/720p/skins/red/snake_rotation_x-y-.png').convert_alpha()
+        snake_back_x = pygame.image.load('resources/720p/skins/red/snake_back_x+.png').convert_alpha()
+        snake_back_xx = pygame.image.load('resources/720p/skins/red/snake_back_x-.png').convert_alpha()
+        snake_back_y = pygame.image.load('resources/720p/skins/red/snake_back_y+.png').convert_alpha()
+        snake_back_yy = pygame.image.load('resources/720p/skins/red/snake_back_y-.png').convert_alpha()
 
 
 def skin_change2():
     global head_surf_xx, head_surf_y, head_surf_x, head_surf_yy, body_surf_x, body_surf_y, player_coords, direction, \
         screen, snake_r_xy, snake_r_xy_, snake_r_x_y_, snake_r_x_y, snake_back_x, snake_back_xx, snake_back_y, \
         snake_back_yy
-    head_surf_xx = pygame.image.load('resources/1080p/skins/blue/snake_head_x+.png').convert_alpha()
-    head_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_head_x-.png').convert_alpha()
-    head_surf_yy = pygame.image.load(f'resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
-    head_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_head_y-.png').convert_alpha()
-    body_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_body_x.png').convert_alpha()
-    body_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_body_y.png').convert_alpha()
-    snake_r_xy = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x+y+.png').convert_alpha()
-    snake_r_x_y = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x-y+.png').convert_alpha()
-    snake_r_xy_ = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x+y-.png').convert_alpha()
-    snake_r_x_y_ = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x-y-.png').convert_alpha()
-    snake_back_x = pygame.image.load('resources/1080p/skins/blue/snake_back_x+.png').convert_alpha()
-    snake_back_xx = pygame.image.load('resources/1080p/skins/blue/snake_back_x-.png').convert_alpha()
-    snake_back_y = pygame.image.load('resources/1080p/skins/blue/snake_back_y+.png').convert_alpha()
-    snake_back_yy = pygame.image.load('resources/1080p/skins/blue/snake_back_y-.png').convert_alpha()
+    if resolution == (1920, 1080):
+        head_surf_xx = pygame.image.load('resources/1080p/skins/blue/snake_head_x+.png').convert_alpha()
+        head_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_head_x-.png').convert_alpha()
+        head_surf_yy = pygame.image.load(f'resources/1080p/skins/blue/snake_head_y+.png').convert_alpha()
+        head_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_head_y-.png').convert_alpha()
+        body_surf_x = pygame.image.load('resources/1080p/skins/blue/snake_body_x.png').convert_alpha()
+        body_surf_y = pygame.image.load('resources/1080p/skins/blue/snake_body_y.png').convert_alpha()
+        snake_r_xy = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x+y+.png').convert_alpha()
+        snake_r_x_y = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x-y+.png').convert_alpha()
+        snake_r_xy_ = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x+y-.png').convert_alpha()
+        snake_r_x_y_ = pygame.image.load('resources/1080p/skins/blue/snake_rotation_x-y-.png').convert_alpha()
+        snake_back_x = pygame.image.load('resources/1080p/skins/blue/snake_back_x+.png').convert_alpha()
+        snake_back_xx = pygame.image.load('resources/1080p/skins/blue/snake_back_x-.png').convert_alpha()
+        snake_back_y = pygame.image.load('resources/1080p/skins/blue/snake_back_y+.png').convert_alpha()
+        snake_back_yy = pygame.image.load('resources/1080p/skins/blue/snake_back_y-.png').convert_alpha()
+    if resolution == (1280, 720):
+        head_surf_xx = pygame.image.load('resources/720p/skins/blue/snake_head_x+.png').convert_alpha()
+        head_surf_x = pygame.image.load('resources/720p/skins/blue/snake_head_x-.png').convert_alpha()
+        head_surf_yy = pygame.image.load(f'resources/720p/skins/blue/snake_head_y+.png').convert_alpha()
+        head_surf_y = pygame.image.load('resources/720p/skins/blue/snake_head_y-.png').convert_alpha()
+        body_surf_x = pygame.image.load('resources/720p/skins/blue/snake_body_x.png').convert_alpha()
+        body_surf_y = pygame.image.load('resources/720p/skins/blue/snake_body_y.png').convert_alpha()
+        snake_r_xy = pygame.image.load('resources/720p/skins/blue/snake_rotation_x+y+.png').convert_alpha()
+        snake_r_x_y = pygame.image.load('resources/720p/skins/blue/snake_rotation_x-y+.png').convert_alpha()
+        snake_r_xy_ = pygame.image.load('resources/720p/skins/blue/snake_rotation_x+y-.png').convert_alpha()
+        snake_r_x_y_ = pygame.image.load('resources/720p/skins/blue/snake_rotation_x-y-.png').convert_alpha()
+        snake_back_x = pygame.image.load('resources/720p/skins/blue/snake_back_x+.png').convert_alpha()
+        snake_back_xx = pygame.image.load('resources/720p/skins/blue/snake_back_x-.png').convert_alpha()
+        snake_back_y = pygame.image.load('resources/720p/skins/blue/snake_back_y+.png').convert_alpha()
+        snake_back_yy = pygame.image.load('resources/720p/skins/blue/snake_back_y-.png').convert_alpha()
 
 
 def wall1_change():
     global backscreen_surf
     if resolution == (1920, 1080):
         backscreen_surf = pygame.image.load('resources/1080p/backscreen.png').convert()
+    if resolution == (1280, 720):
+        backscreen_surf = pygame.image.load('resources/720p/backscreen.png').convert()
 
 
 def wall2_change():
     global backscreen_surf
     if resolution == (1920, 1080):
         backscreen_surf = pygame.image.load('resources/1080p/wall2.png').convert()
+    if resolution == (1280, 720):
+        backscreen_surf = pygame.image.load('resources/720p/wall2.png').convert()
 
 
 def wall3_change():
     global backscreen_surf
     if resolution == (1920, 1080):
         backscreen_surf = pygame.image.load('resources/1080p/wall3.png').convert()
+    if resolution == (1280, 720):
+        backscreen_surf = pygame.image.load('resources/720p/wall3.png').convert()
 
 
 def wall4_change():
     global backscreen_surf
     if resolution == (1920, 1080):
         backscreen_surf = pygame.image.load('resources/1080p/wall4.png').convert()
+    if resolution == (1280, 720):
+        backscreen_surf = pygame.image.load('resources/720p/wall4.png').convert()
 
 
 while running:
